@@ -3,14 +3,11 @@ const Directions = require("../Directions");
 const CellStates = require("../Cell/CellStates");
 
 const Decision = {
-    neutral: 0,
-    retreat: 1,
-    chase: 2,
     getRandom: function(){
-        return Math.floor(Math.random() * 3);
+        return Math.random() * 4 - 2;
     },
-    getRandomNonNeutral: function() {
-        return Math.floor(Math.random() * 2)+1;
+    getRandomDelta: function(){
+        return Math.random() - 0.5;
     }
 }
 
@@ -21,15 +18,15 @@ class Brain {
 
         // corresponds to CellTypes
         this.decisions = [];
-        this.decisions[CellStates.empty.name] = Decision.neutral;
-        this.decisions[CellStates.food.name] = Decision.chase;
-        this.decisions[CellStates.wall.name] = Decision.neutral;
-        this.decisions[CellStates.mouth.name] = Decision.neutral;
-        this.decisions[CellStates.producer.name] = Decision.neutral;
-        this.decisions[CellStates.mover.name] = Decision.neutral;
-        this.decisions[CellStates.killer.name] = Decision.retreat;
-        this.decisions[CellStates.armor.name] = Decision.neutral;
-        this.decisions[CellStates.eye.name] = Decision.neutral;
+        this.decisions[CellStates.empty.name] = 0;
+        this.decisions[CellStates.food.name] = 1.5;
+        this.decisions[CellStates.wall.name] = 0;
+        this.decisions[CellStates.mouth.name] = 0;
+        this.decisions[CellStates.producer.name] = 0;
+        this.decisions[CellStates.mover.name] = 0;
+        this.decisions[CellStates.killer.name] = -1.5;
+        this.decisions[CellStates.armor.name] = 0;
+        this.decisions[CellStates.eye.name] = 0;
     }
 
     randomizeDecisions(randomize_all=false) {
@@ -50,36 +47,47 @@ class Brain {
     }
 
     decide() {
-        var decision = Decision.neutral;
-        var closest = Hyperparams.lookRange + 1;
-        var move_direction = 0;
+        var desired_direction_x = Directions.scalars[this.owner.direction][0];
+        var desired_direction_y = Directions.scalars[this.owner.direction][1];
         for (var obs of this.observations) {
-            if (obs.cell == null || obs.cell.owner == this.owner) {
+            if (obs.cell == null) {
                 continue;
             }
-            if (obs.distance < closest) {
-                // console.log(obs.cell.state)
-                decision = this.decisions[obs.cell.state.name];
-                // console.log(decision)
-                move_direction = obs.direction;
-                closest = obs.distance;
-            }
+            // console.log(obs.cell.state)
+            var decision_weight = this.decisions[obs.cell.state.name];
+            // console.log(decision_weight)
+            desired_direction_x += decision_weight * Directions.scalars[obs.direction][0] * (1.5 - (obs.distance / Hyperparams.lookRange));
+            desired_direction_y += decision_weight * Directions.scalars[obs.direction][1] * (1.5 - (obs.distance / Hyperparams.lookRange));
         }
         this.observations = [];
-        if (decision == Decision.chase) {
-            this.owner.changeDirection(move_direction);
-            return true;
+        //convert the desired direction vector into the closest world direction
+        var new_direction;
+        if (Math.abs(desired_direction_x) > Math.abs(desired_direction_y)) {
+            if (desired_direction_x > 0) {
+                new_direction = Directions.right;
+            } else {
+                new_direction = Directions.left;
+            }
+        } else {
+            if (desired_direction_y < 0) {
+                new_direction = Directions.up;
+            } else {
+                new_direction = Directions.down;
+            }
         }
-        else if (decision == Decision.retreat) {
-            this.owner.changeDirection(Directions.getOppositeDirection(move_direction));
+        //check if the direction has changed
+        if (new_direction != this.owner.direction) {
+            this.owner.changeDirection(new_direction);
             return true;
         }
         return false;
     }
 
     mutate() {
-        this.decisions[CellStates.getRandomName()] = Decision.getRandom();
-        this.decisions[CellStates.empty.name] = Decision.neutral; // if the empty cell has a decision it gets weird
+        var cell = CellStates.getRandomName();
+        this.decisions[cell] += Decision.getRandomDelta(); //change by a tiny amount [-0.5, 0.5]
+        this.decisions[cell] = Math.max(-2, Math.min(this.decisions[cell], 2)); //clamp to [-2, 2]
+        this.decisions[CellStates.empty.name] = 0; // if the empty cell has a decision it gets weird
     }
 }
 

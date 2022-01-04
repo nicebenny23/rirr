@@ -186,11 +186,11 @@ class EditorController extends CanvasController{
         var retreat_types = [];
         for(var cell_name in this.env.organism.brain.decisions) {
             var decision = this.env.organism.brain.decisions[cell_name];
-            if (decision == 1) {
-                retreat_types.push(cell_name)
+            if (decision < 0) {
+                retreat_types.push(cell_name + " [" + Math.round(decision * 100) / 100 + "] ");
             }
-            else if (decision == 2) {
-                chase_types.push(cell_name);
+            else if (decision > 0) {
+                chase_types.push(cell_name + " [" + Math.round(decision * 100) / 100 + "] ");
             }
         }
         $('.chase-types').text("Move Towards: " + chase_types);
