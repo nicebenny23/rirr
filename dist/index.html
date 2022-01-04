@@ -143,12 +143,14 @@
 								<label for="reaction-edit">Reaction: </label>
 								<select name="reaction-edit" id="reaction-edit">
 									<option value="0">ignore</option>
-									<option value="1">move away</option>
-									<option value="2">move towards</option>
+									<option value="-1">move away</option>
+									<option value="1">move towards</option>
+									<option value="-2">strongly move away</option>
+									<option value="2">strongly move towards</option>
 								</select>
 								<br>
-								<p class='chase-types'>Move Towards: food</p>
-								<p class='retreat-types'>Move Away From: killer</p>
+								<p class='chase-types'>Move Towards: food [1.5]</p>
+								<p class='retreat-types'>Move Away From: killer [-1.5]</p>
 							</div>
 						</div>
 						
