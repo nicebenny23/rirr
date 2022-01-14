@@ -1,4 +1,4 @@
-This is the readme for my evolution simulator, The Life Engine. 
+This is the readme for my version of the evolution simulator by MaxRobinsonTheGreat, The Life Engine. 
 
 FOR FEATURE REQUESTS, USE THE DISCUSSIONS TAB. FOR BUG REPORTS, USE THE ISSUES TAB. :)
 
@@ -27,7 +27,7 @@ Organism Cells are only found in organisms, and cannot exist on their own in the
 - Producer - Green, randomly generates food in directly adjacent empty cells.
 - Mover - Light blue, allows the organism to move and rotate randomly.
 - Killer - Red, harms organisms in directly adjacent cells (besides itself).
-- Armor - Purple, negates the effects of killer cells.
+- Armor - Purple, negates the effects of killer cells on itself and adjacent cells.
 - Eye - Light purple with a slit, allows the organism to see and move intelligently. See further description below.
 
 ## Organisms

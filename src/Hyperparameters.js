@@ -7,6 +7,7 @@ const Hyperparams = {
         this.killableNeighbors = Neighbors.adjacent;
         this.edibleNeighbors = Neighbors.adjacent;
         this.growableNeighbors = Neighbors.adjacent;
+        this.protectedNeighbors = Neighbors.adjacent;
 
         this.useGlobalMutability = false;
         this.globalMutability = 5;
@@ -20,6 +21,7 @@ const Hyperparams = {
         this.moversCanProduce = false;
 
         this.instaKill = false;
+        this.extendedArmor = false;
 
         this.lookRange = 20;
 

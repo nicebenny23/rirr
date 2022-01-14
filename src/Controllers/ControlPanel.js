@@ -222,6 +222,9 @@ class ControlPanel {
         $('#insta-kill').change(function() {
             Hyperparams.instaKill = this.checked;
         });
+        $('#extended-armor').change(function() {
+            Hyperparams.extendedArmor = this.checked;
+        });
         $('#look-range').change(function() {
             Hyperparams.lookRange = $('#look-range').val();
         });
