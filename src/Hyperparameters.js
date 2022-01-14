@@ -21,6 +21,7 @@ const Hyperparams = {
         this.moversCanProduce = false;
 
         this.instaKill = false;
+        this.extendedArmor = false;
 
         this.lookRange = 20;
 
