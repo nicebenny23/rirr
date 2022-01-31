@@ -4,6 +4,7 @@ const GridMap = require('../Grid/GridMap');
 const Organism = require('../Organism/Organism');
 const CellStates = require('../Organism/Cell/CellStates');
 const EnvironmentController = require('../Controllers/EnvironmentController');
+const EventsController = require('../Controllers/EventsController');
 const Hyperparams = require('../Hyperparameters.js');
 const FossilRecord = require('../Stats/FossilRecord');
 const WorldConfig = require('../WorldConfig');
@@ -13,6 +14,7 @@ class WorldEnvironment extends Environment{
         super();
         this.renderer = new Renderer('env-canvas', 'env', cell_size);
         this.controller = new EnvironmentController(this, this.renderer.canvas);
+        this.eventscontroller = new EventsController(this);
         this.num_rows = Math.ceil(this.renderer.height / cell_size);
         this.num_cols = Math.ceil(this.renderer.width / cell_size);
         this.grid_map = new GridMap(this.num_cols, this.num_rows, cell_size);
@@ -42,6 +44,7 @@ class WorldEnvironment extends Environment{
         if (this.total_ticks % this.data_update_rate == 0) {
             FossilRecord.updateData();
         }
+        this.eventscontroller.scanEvents();
     }
 
     render() {
