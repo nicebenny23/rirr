@@ -148,6 +148,7 @@ class WorldEnvironment extends Environment{
         this.renderer.renderFullGrid(this.grid_map.grid);
         this.total_mutability = 0;
         this.total_ticks = 0;
+        this.eventscontroller.Reset();
         FossilRecord.clear_record();
         if (reset_life)
             this.OriginOfLife();

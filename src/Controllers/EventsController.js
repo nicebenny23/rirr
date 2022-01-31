@@ -37,7 +37,7 @@ class EventsController {
         var eventslist = [];
         //console.log(this.events.length);
         this.events.forEach(ev => {
-            eventslist.push("[" + ev.time + "] FP: " + ev.foodprod + " FD: " + ev.fooddrop + " LS: " + ev.lifespan + " MC: " + ev.movercost + "<br>");
+            eventslist.push("[" + ev.time + "] FP: " + ev.foodprod + ", FD: " + ev.fooddrop + ", LS: " + ev.lifespan + ", MC: " + ev.movercost + "<br>");
         });
         $('.events-list').html(eventslist);
     }
@@ -68,6 +68,10 @@ class EventsController {
         console.log("World event happened at " + event.time);
         event.completed = true;
         this.updateParameters();
+    }
+
+    Reset() {
+        this.events.forEach(event => {event.completed = false});
     }
 }
 
