@@ -20,24 +20,51 @@ class EventsController {
 
     createEvent() {
         var time = $('#event-time').val();
+        if(time <= this.environment.total_ticks) {
+            confirm("OVERDUE EVENT\nCannot add event in the past.");
+            return false;
+        }
+        for (let i = 0; i < this.events.length; i++) {
+            if(this.events[i].time == time) {
+                if(confirm("EXISTING EVENT\nDo you want to overwrite the event at "+time+" ticks?")) {
+                    this.events.splice(i, 1);
+                    break;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
         var foodprod = $('#new-food-prod').val();
         var fooddrop = $('#new-food-drop').val();
         var lifespan = $('#new-lifespan').val();
         var movercost = $('#new-mover-cost').val();
         this.events.push(new WorldEvent(time, foodprod, fooddrop, lifespan, movercost));
+        this.events.sort((a, b) => a.time - b.time);
         this.updateEventsList();
+        return true;
     }
 
     removeEvent() {
-        if(this.events.length > 0) this.events.pop();
-        this.updateEventsList();
+        if(this.events.length == 0) return false;
+        var time = $('#event-time').val();
+        for (let i = 0; i < this.events.length; i++) {
+            if(this.events[i].time == time) {
+                this.events.splice(i, 1);
+                this.updateEventsList();
+                return true;
+            }
+        }
+        confirm("404 EVENT NOT FOUND\nNo event found at "+time+" ticks.");
+        return false;
     }
 
     updateEventsList() {
         var eventslist = [];
         //console.log(this.events.length);
         this.events.forEach(ev => {
-            eventslist.push("[" + ev.time + "] FP: " + ev.foodprod + ", FD: " + ev.fooddrop + ", LS: " + ev.lifespan + ", MC: " + ev.movercost + "<br>");
+            eventslist.push((ev.completed?"<s>[":"[")+ev.time+"] FP: "+ev.foodprod+", FD: "+
+            ev.fooddrop+", LS: "+ev.lifespan+", MC: "+ev.movercost+(ev.completed?"</s> <br>":"<br>"));
         });
         $('.events-list').html(eventslist);
     }
@@ -50,9 +77,9 @@ class EventsController {
     }
 
     scanEvents() {
-        this.events.forEach(event => {
-            if(!event.completed && this.environment.total_ticks >= event.time) {
-                this.performEvent(event);
+        this.events.forEach(ev => {
+            if(!ev.completed && this.environment.total_ticks >= ev.time) {
+                this.performEvent(ev);
                 return true;
             }
         });
@@ -68,10 +95,12 @@ class EventsController {
         console.log("World event happened at " + event.time);
         event.completed = true;
         this.updateParameters();
+        this.updateEventsList();
     }
 
     Reset() {
         this.events.forEach(event => {event.completed = false});
+        this.updateEventsList();
     }
 }
 
