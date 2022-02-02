@@ -40,11 +40,11 @@ class WorldEnvironment extends Environment{
             this.generateFood();
         }
         this.removeOrganisms(to_remove);
+        this.eventscontroller.scanEvents();
         this.total_ticks ++;
         if (this.total_ticks % this.data_update_rate == 0) {
             FossilRecord.updateData();
         }
-        this.eventscontroller.scanEvents();
     }
 
     render() {

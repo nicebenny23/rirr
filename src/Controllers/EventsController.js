@@ -35,10 +35,10 @@ class EventsController {
                 }
             }
         }
-        var foodprod = $('#new-food-prod').val();
-        var fooddrop = $('#new-food-drop').val();
-        var lifespan = $('#new-lifespan').val();
-        var movercost = $('#new-mover-cost').val();
+        var foodprod = Number($('#new-food-prod').val());
+        var fooddrop = Number($('#new-food-drop').val());
+        var lifespan = Number($('#new-lifespan').val());
+        var movercost = Number($('#new-mover-cost').val());
         this.events.push(new WorldEvent(time, foodprod, fooddrop, lifespan, movercost));
         this.events.sort((a, b) => a.time - b.time);
         this.updateEventsList();
