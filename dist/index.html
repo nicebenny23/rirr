@@ -42,6 +42,7 @@
 					<p class='tabnav-item open-tab' id='about'>About</p>
 					<p class='tabnav-item' id='editor'>Editor</p>
 					<p class='tabnav-item' id='world-controls'>World Controls</p>
+					<p class='tabnav-item' id='world-events'>Events</p>
 					<p class='tabnav-item' id='hyperparameters'>Evolution Controls</p>
 					<p class='tabnav-item' id='stats'>Statistics</p>
 					<button id="minimize" title="Minimze Control Panel."><i class="fa fa-minus-square"></i></button>
@@ -243,6 +244,33 @@
 						<button id='load-controls' title="Load saved Evolution Controls with a .json file">Load</button>
 						<a id="download-el" style="display: none;"></a>
 						<input id="upload-el" style="display: none;" type="file">
+					</div>
+				</div>
+				<div id='world-events' class='tab'>
+					<div class='left-half'>
+						<h2>World Events</h2>
+						<p class='events-list'>No events scheduled</p>
+					</div>
+					<div class='right-half'>
+						<h2>Event Creator</h2>
+						<label for="event-time" title='Time in ticks at which the event will occur.'>Event Time:</label>
+						<input type="number" id="event-time" min="1" value="10" step="1">
+						<br/>
+						<h4>New Values</h4>
+						<label for="new-food-prod" title='Value the food production probability will be changed to.'>Food Production:</label>
+						<input type="number" id="new-food-prod" min="0" max="100" value="5" step="1">
+						<br/>
+						<label for="new-food-drop" title='Value the food drop rate will be changed to.'>Food Drop Rate:</label>
+						<input type="number" id="new-food-drop" min="0" max="100" value="0" step="0.1">
+						<br/>
+						<label for="new-lifespan" title='Value the lifespan multiplier will be changed to.'>Lifespan Multiplier:</label>
+						<input type="number" id="new-lifespan" min="1" value="100" step="1">
+						<br/>
+						<label for="new-mover-cost" title='Value the extra mover cost will be changed to.'>Extra Mover Cost:</label>
+						<input type="number" id="new-mover-cost" min="0" value="0" step="1">
+						<br/>
+						<button id='add-event' title="Schedule the event">Add Event</button>
+						<button id='remove-event' title="Remove event at selected time">Remove Event</button>
 					</div>
 				</div>
 				<div id='stats' class='tab'>

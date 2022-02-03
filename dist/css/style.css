@@ -277,6 +277,26 @@ button:active{
     padding-bottom: 0;
 }
 
-#reset-with-editor-org{
+#reset-with-editor-org {
     margin-top: 5px;
+}
+
+#event-time {
+    width: 100px;
+}
+
+#new-food-prod {
+    width: 100px;
+}
+
+#new-food-drop {
+    width: 100px;
+}
+
+#new-lifespan {
+    width: 100px;
+}
+
+#new-mover-cost {
+    width: 100px;
 }
